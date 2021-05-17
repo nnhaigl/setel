@@ -1,0 +1,40 @@
+{
+    "defaultSeverity": "error",
+    "extends": ["tslint:recommended"],
+    "rules": {
+      "eofline": false,
+      "no-unused-expression": [true, "allow-fast-null-checks"],
+      "object-literal-key-quotes": [true, "as-needed"],
+      "member-access": false,
+      "curly": false,
+      "no-var-keyword": true,
+      "semicolon": false,
+      "quotemark": false,
+      "trailing-comma": true,
+      "max-line-length": [true, 120],
+      "indent": [true, "spaces", 2],
+      "ordered-imports": [false],
+      "no-use-before-declare": true,
+      "no-unused-variable": true,
+      "no-trailing-whitespace": true,
+      "no-irregular-whitespace": true,
+      "object-literal-sort-keys": false,
+      "arrow-parens": [false],
+      "no-empty": [false],
+      "no-shadowed-variable": false,
+      "variable-name": {
+        "options": [
+          "ban-keywords",
+          "check-format",
+          "allow-pascal-case",
+          "allow-snake-case"
+        ]
+      },
+      "member-ordering": [true, { "order": ["static-field"] }],
+      "array-type": false,
+      "interface-name": false,
+      "max-classes-per-file": [true, 1],
+      "no-string-literal": false
+    },
+    "rulesDirectory": []
+  }
