@@ -1,7 +1,7 @@
-const PAYMENT_RMQ_SERVICE: string = process.env.PAYMENT_RMQ_NAME || 'PAYMENT_RMQ_SERVICE';
+const PAYMENT_SERVICE: string = process.env.PAYMENT_NAME || 'PAYMENT_SERVICE';
 const VERIFY_PAYMENT_OF_ORDER = 'verify_payment_order';
 
 export {
-  PAYMENT_RMQ_SERVICE,
+  PAYMENT_SERVICE,
   VERIFY_PAYMENT_OF_ORDER,
 }

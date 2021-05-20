@@ -10,7 +10,7 @@ import { DeliverOrderProcessor } from './deliver-order.process';
 
 import dbConfig from './src/config/database.config';
 import clientServicesCfg from './src/config/clients.config';
-import { PAYMENT_RMQ_SERVICE } from './src/constants/payment-service.constant';
+import { PAYMENT_SERVICE } from './src/constants/payment-service.constant';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,13 +35,19 @@ import { PAYMENT_RMQ_SERVICE } from './src/constants/payment-service.constant';
       })
     }),
     TypeOrmModule.forFeature([Order]),
-    ClientsModule.registerAsync([
+    ClientsModule.register([
       {
-        inject: [ConfigService],
-        name: PAYMENT_RMQ_SERVICE,
-        useFactory: (configService: ConfigService) => ({
-          ...configService.get<any>('client_services.payment_queue')
-        })
+        // inject: [ConfigService],
+        // name: PAYMENT_SERVICE,
+        // useFactory: (configService: ConfigService) => ({
+        //   ...configService.get<any>('client_services.payment_queue')
+        // })
+        name: PAYMENT_SERVICE,
+        transport: Transport.NATS,
+        options: {
+          url: process.env.NATS_URI,
+          queue: 'payment_queue',
+        }
       }
     ])
   ],

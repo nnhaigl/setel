@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { IOrderGrpcClient, IPagination } from './interfaces/ordergrpc.interface';
 import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { CreateOrderDto } from '../../../order-app/src/dto/createOrder.dto';
+import { CreateOrderDto } from './dto/createOrder.dto';
 
 @Injectable()
 export class OrderService implements OnModuleInit {
@@ -21,7 +21,7 @@ export class OrderService implements OnModuleInit {
   }
 
   createOrder(data: CreateOrderDto): Observable<any> {
-    this.logger.log('Call to order-app to create new order.')
+    this.logger.log('Call to order-app to create new order.' + JSON.stringify(data))
     return this.orderGrpcClient.createOrder(data);
   }
 

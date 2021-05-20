@@ -1,17 +1,14 @@
 import { registerAs } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
-import { PAYMENT_RMQ_SERVICE } from '../constants/payment-service.constant';
+import { PAYMENT_SERVICE } from '../constants/payment-service.constant';
 
 export default registerAs('client_services', () => ({
   payment_queue: {
-    name: PAYMENT_RMQ_SERVICE,
-    transport: Transport.RMQ,
+    name: PAYMENT_SERVICE,
+    transport: Transport.NATS,
     options: {
-      urls: [process.env.PAYMENT_RMQ_URL || 'amqp://rabbitmq-server:5672'],
-      queue: process.env.PAYMENT_RMQ_QUEUE || 'payment_queue',
-      queueOptions: {
-        durable: Boolean(process.env.PAYMENT_RMQ_OPT_DURABLE) || false
-      }
+      url: process.env.NATS_URI,
+      queue: 'payment_queue',
     }
   },
   redis_server: {

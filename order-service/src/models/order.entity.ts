@@ -22,15 +22,6 @@ export class Order {
   customer_name: string;
 
   @Column()
-  address: string;
-
-  @Column()
-  phone: string;
-
-  @Column()
-  delivery_date: Date;
-
-  @Column()
   amount_money: number;
 
   @Column({ 

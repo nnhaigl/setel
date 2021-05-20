@@ -1,0 +1,19 @@
+# Start a new stage from node
+FROM node:14.15.1-alpine
+
+WORKDIR /payment-service
+
+COPY ./package.json ./package-lock.json ./
+# COPY .env.example .env
+RUN npm install -g @nestjs/cli --silent
+RUN npm install --silent
+# Copy sources to the working directory
+COPY . .
+# Set the node environment
+ARG node_env=production
+ENV NODE_ENV $node_env
+# Build the Node.js app
+RUN yarn build 
+# Copy the build artifacts from the previous stage
+# Run server
+CMD ["node", "./dist/main"]

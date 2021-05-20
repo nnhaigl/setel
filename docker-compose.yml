@@ -1,0 +1,108 @@
+version: '3'
+
+services:
+  mariadb-server:
+    image: mariadb:10.5-focal
+    container_name: setel-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: order-service
+      APP_NAME: setel-db
+    ports:
+      - "3306:3306"
+    networks:
+      - setel-network
+  nats:
+    image: 'nats:latest'
+    expose:
+      - "4222"
+    ports:
+      - "8222:8222"
+    hostname: nats-server
+    networks:
+      - setel-network
+  redis-server:
+    image: redis
+    container_name: redis-server
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - setel-network
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: ./Dockerfile
+      args:
+        project: payment-service
+    container_name: payment-service
+    environment:
+      - APP_NAME=payment-service
+      - NATS_URI=nats://nats:4222
+    restart: on-failure
+    depends_on:
+      - nats
+    networks:
+      - setel-network
+  order-service:
+    build:
+      context: ./order-service
+      dockerfile: ./Dockerfile
+      args:
+        project: order-service
+    container_name: order-service
+    environment:
+      - PORT=50051
+      - APP_NAME=order-service
+      - REDIS_HOST=redis-server
+      - NATS_URI=nats://nats:4222
+    depends_on:
+      - mariadb-server
+      - nats
+      - payment-service
+    restart: on-failure
+    ports:
+      - "50051:50051"
+    networks:
+      - setel-network
+  setel-api:
+    build:
+      context: ./api-gateway
+      dockerfile: ./Dockerfile
+      args:
+        project: api-gateway
+    environment:
+      - PORT=3333
+      - APP_NAME=api-gateway
+    container_name: api-gateway
+    restart: on-failure
+    depends_on:
+      - order-service
+    ports:
+      - "3333:3333"
+    networks:
+      - setel-network
+  setel-web:
+    build:
+      context: ./web
+      dockerfile: ./Dockerfile
+    environment:
+      - PORT=3000
+    container_name: setel-web
+    restart: on-failure
+    depends_on:
+      - setel-api
+    ports:
+      - "80:3000"
+    networks:
+      - setel-network
+networks:
+  setel-network:
+    driver: bridge
+
+    
+    
+

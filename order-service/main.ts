@@ -2,7 +2,6 @@ import { join } from 'path'
 
 import { NestFactory } from '@nestjs/core'
 import { Transport } from '@nestjs/microservices'
-import { Logger } from 'nestjs-pino'
 
 import { OrderModule } from './order.module'
 
@@ -18,8 +17,6 @@ async function bootstrap() {
       }
     }
   })
-
-  app.useLogger(app.get(Logger))
 
   return app.listenAsync()
 }

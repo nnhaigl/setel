@@ -14,7 +14,7 @@ export class DeliverOrderProcessor {
   async handleDeliverOrder(job: Job): Promise<any> {
     const order = job.data
     if (order.status === OrderStatus.CONFIRMED) {
-      this.logger.log('mock change status of order from confirmed to delivered after 10 sec.');
+      this.logger.log(`change status order : ${order.order_id}`);
       await this.orderService.deliveredOrder(order.order_id);
     }
   }

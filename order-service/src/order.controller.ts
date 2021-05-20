@@ -3,7 +3,7 @@ import { OrderByIdDto } from './dto/orderById.dto';
 import { Order, OrderStatus } from './models/order.entity';
 import { Controller, UseInterceptors } from '@nestjs/common';
 import { Metadata, ServerUnaryCall  } from 'grpc';
-import { OrderAppService } from './order-app.service';
+import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import { GrpcMethod } from '@nestjs/microservices';
 import { TransformPaginationInterceptor } from './interceptors/transform-pagination.interceptor'
@@ -16,7 +16,7 @@ import {
 } from './constants/order-service.constant';
 @Controller()
 export class OrderController {
-  constructor(private readonly orderAppService: OrderAppService) {}
+  constructor(private readonly orderAppService: OrderService) {}
 
   @UseInterceptors(new TransformPaginationInterceptor())
   @GrpcMethod(ORDER_SERVICE, GET_LIST_ORDERS)

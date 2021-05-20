@@ -11,11 +11,11 @@ import { join } from 'path';
         transport: Transport.GRPC,
         options: {
           package: 'orders',
-          url: 'order:50051',
+          url: 'order-service:50051',
           loader: {
             keepCase: true
           },
-          protoPath: join(__dirname, '../_proto/order.proto')
+          protoPath: join(__dirname, './_proto/order.proto')
         }
       }
     ])
